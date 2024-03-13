@@ -1,0 +1,19 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Vuelos</mat-card-title>
+    </mat-card-header>
+    <br>
+    <mat-card-content>
+        <div class="chart-container">
+            <canvas  id="MyChart" >{{ chart }}</canvas>
+        </div>
+        <div class="total-airlines">
+            <div>
+                Numero de aerolineas
+            </div>
+            <div>
+                {{countAirlinea}}
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>

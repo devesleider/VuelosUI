@@ -1,0 +1,52 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Vuelos</mat-card-title>
+        <button mat-raised-button color="primary" (click)="addFlight()"> <mat-icon>add</mat-icon>Añadir</button>
+    </mat-card-header>
+    <br>
+    <mat-card-content>
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+            <ng-container matColumnDef="Vuelo">
+                <th mat-header-cell *matHeaderCellDef> No. </th>
+                <td mat-cell *matCellDef="let element"> {{element.numero_vuelo}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Aerolinea">
+                <th mat-header-cell *matHeaderCellDef> Aerolinea </th>
+                <td mat-cell *matCellDef="let element"> {{element.airline.nombre}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Origen">
+                <th mat-header-cell *matHeaderCellDef> Origen </th>
+                <td mat-cell *matCellDef="let element"> {{ element.origin.ciudad }} - {{element.origin.nombre}} (
+                    {{element.origin.codigo}} ) </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Destino">
+                <th mat-header-cell *matHeaderCellDef> Destino </th>
+                <td mat-cell *matCellDef="let element"> {{ element.destination.ciudad }} -
+                    {{element.destination.nombre}} ( {{element.destination.codigo}} ) </td>
+            </ng-container>
+
+            <ng-container matColumnDef="FechaSalida">
+                <th mat-header-cell *matHeaderCellDef> Fecha Salida </th>
+                <td mat-cell *matCellDef="let element"> {{element.fecha_salida | date: 'dd-MM-yyyy HH:mm'}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="FechaLlegada">
+                <th mat-header-cell *matHeaderCellDef>Fecha Llegada </th>
+                <td mat-cell *matCellDef="let element"> {{element.fecha_llegada | date: 'dd-MM-yyyy HH:mm'}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Precio">
+                <th mat-header-cell *matHeaderCellDef>Precio</th>
+                <td mat-cell class="align-right" *matCellDef="let element"> {{element.precio |
+                    currency:'$':'symbol':'1.0-0'}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </mat-card-content>
+</mat-card>

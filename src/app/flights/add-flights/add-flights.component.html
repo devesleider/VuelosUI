@@ -1,0 +1,52 @@
+<h2 mat-dialog-title>Agregar Vuelo</h2>
+<mat-dialog-content class="mat-typography">
+    <form class="example-form" [formGroup]="flightForm">
+        <mat-form-field>
+            <input matInput placeholder="Número de vuelo" formControlName="numero_vuelo">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-select formControlName="idAirline" placeholder="Aerolínea" required>
+                <mat-option *ngFor="let aerolinea of aerolineas" [value]="aerolinea._id">
+                    {{aerolinea.nombre}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-select formControlName="origen" placeholder="Origen" required>
+                <mat-option *ngFor="let airport of airports" [value]="airport._id">
+                    {{ airport.ciudad }} - {{airport.nombre}} ( {{airport.codigo}} )
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-select formControlName="destino" placeholder="Destino" required>
+                <mat-option *ngFor="let airport of airports" [value]="airport._id">
+                    {{ airport.ciudad }} - {{airport.nombre}} ( {{airport.codigo}} )
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput [matDatepicker]="picker1" placeholder="Fecha de salida" formControlName="fecha_salida">
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput type="time" formControlName="hora_salida" placeholder="Hora de salida">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput [matDatepicker]="picker2" placeholder="Fecha de llegada" formControlName="fecha_llegada">
+            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput type="time" formControlName="hora_llegada" placeholder="Hora de salida">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput currencyMask placeholder="Precio" formControlName="precio">
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancelar</button>
+    <button mat-button color="primary" (click)="save()" cdkFocusInitial [disabled]="flightForm.invalid">Guardar</button>
+</mat-dialog-actions>
