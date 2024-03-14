@@ -6,26 +6,26 @@
     <mat-card-content>
         <form class="example-form" [formGroup]="flightForm">
             <mat-form-field>
-                <mat-select formControlName="origen" placeholder="Origen" required>
+                <mat-select formControlName="origen" placeholder="Origen" required (selectionChange)="validateRout()">
                     <mat-option *ngFor="let airport of airports" [value]="airport._id">
                         {{ airport.ciudad }} - {{airport.nombre}} ( {{airport.codigo}} )
                     </mat-option>
                 </mat-select>
             </mat-form-field>
             <mat-form-field>
-                <mat-select formControlName="destino" placeholder="Destino" required>
+                <mat-select formControlName="destino" placeholder="Destino" required (selectionChange)="validateRout()">
                     <mat-option *ngFor="let airport of airports" [value]="airport._id">
                         {{ airport.ciudad }} - {{airport.nombre}} ( {{airport.codigo}} )
                     </mat-option>
                 </mat-select>
             </mat-form-field>
             <mat-form-field class="date">
-                <input matInput [matDatepicker]="picker1" placeholder="Fecha de salida" formControlName="fecha_salida">
+                <input matInput [matDatepicker]="picker1" [min]="getFromatDate()" placeholder="Fecha de salida" formControlName="fecha_salida">
                 <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                 <mat-datepicker #picker1></mat-datepicker>
             </mat-form-field>
             <mat-form-field class="date">
-                <input matInput [matDatepicker]="picker2" placeholder="Fecha de llegada"
+                <input matInput [matDatepicker]="picker2" [min]="getFromatDate(flightForm.get('fecha_salida').value)" placeholder="Fecha de llegada"
                     formControlName="fecha_llegada">
                 <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                 <mat-datepicker #picker2></mat-datepicker>
@@ -39,12 +39,15 @@
 <br>
 <br>
 <br>
-<mat-card class="flights">
+<mat-card class="flights" *ngIf="sendFilters">
     <mat-card-content>
         <div class="flight" fxLayout="row" fxLayoutAlign="space-around center" *ngFor="let flight of flights" (click)="addReservation(flight._id)">
             <div fxFlex="50%">{{flight.airline.nombre}}</div>
             <div >{{flight.fecha_salida |  date: 'hh:mm a'}} - {{flight.fecha_llegada |  date: 'hh:mm a'}}</div>
             <div>{{flight.precio | currency:'$':'symbol':'1.0-0'}}</div>
+        </div>
+        <div class="message" *ngIf="flights.length == 0 && sendFilters">
+            No se han encontrado vuelos
         </div>
     </mat-card-content>
 </mat-card>

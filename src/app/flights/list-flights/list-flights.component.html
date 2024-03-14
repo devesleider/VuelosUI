@@ -5,6 +5,7 @@
     </mat-card-header>
     <br>
     <mat-card-content>
+        <mat-progress-bar *ngIf="loanding" mode="indeterminate"></mat-progress-bar>
         <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
             <ng-container matColumnDef="Vuelo">

@@ -33,9 +33,9 @@ export class AddFlightsComponent {
       idAirline: ['', Validators.required],
       origen: ['', Validators.required],
       destino: ['', Validators.required],
-      fecha_salida: ['', Validators.required],
+      fecha_salida: [new Date(), Validators.required],
       hora_salida: ['', Validators.required],
-      fecha_llegada: ['', Validators.required],
+      fecha_llegada: [new Date(), Validators.required],
       hora_llegada: ['', Validators.required],
       precio: ['', Validators.required]
     });
@@ -120,4 +120,27 @@ export class AddFlightsComponent {
   padZero(num: number): string {
     return num < 10 ? '0' + num : '' + num;
   }
+
+  validateRout() {
+    if (this.flightForm.get('destino').value === this.flightForm.get('origen').value) {
+      Swal.fire({
+        icon: "error",
+        title: 'El origen y el destino, no pueden ser iguales',
+        showConfirmButton: false,
+        timer: 2000
+      });
+      this.flightForm.get('destino').setValue('');
+    }
+  }
+
+  getFromatDate(date?) {
+    if (date) {
+      const fechaLlegada = this.flightForm.get('fecha_llegada').value;
+      const nuevaFecha = new Date(date);
+      this.flightForm.get('fecha_llegada').setValue(fechaLlegada < nuevaFecha ? nuevaFecha : fechaLlegada);
+      return nuevaFecha;
+    }
+    return new Date();
+  }
+
 }

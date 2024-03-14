@@ -9,13 +9,14 @@ import { FlightsService } from '../flights.service';
   styleUrls: ['./list-flights.component.scss']
 })
 export class ListFlightsComponent {
-  displayedColumns: string[] = ['Vuelo', 'Aerolinea' ,'Origen', 'Destino', 'FechaSalida', 'FechaLlegada', 'Precio'];
+  displayedColumns: string[] = ['Vuelo', 'Aerolinea', 'Origen', 'Destino', 'FechaSalida', 'FechaLlegada', 'Precio'];
   dataSource = [];
+  loanding = false;
 
   constructor(
     private flightsService: FlightsService,
     public dialog: MatDialog
-  ){
+  ) {
 
   }
 
@@ -23,21 +24,22 @@ export class ListFlightsComponent {
     this.getAllFlights();
   }
 
-  addFlight(){
+  addFlight() {
     const dialogRef = this.dialog.open(AddFlightsComponent,
       {
         disableClose: true
       });
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result){
+      if (result) {
         this.getAllFlights();
       }
     });
 
   }
 
-  getAllFlights(){
+  getAllFlights() {
+    this.loanding = true;
     this.flightsService.getflights().subscribe(
       {
         next: (data: any) => {
@@ -46,7 +48,7 @@ export class ListFlightsComponent {
         }, error: (error) => {
 
         }, complete: () => {
-
+          this.loanding = false;
         }
       }
     );
