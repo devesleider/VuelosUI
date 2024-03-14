@@ -22,6 +22,9 @@ export class HomeComponent {
 
   }
 
+  /**
+  * Método para obtener las aerolineas con mas reservas
+  */
   getTopReservation() {
     this.reportsService.getTopReservation().subscribe((data: any) => {
       this.labels = data.reservation.map(reservation => reservation.airline.nombre);
@@ -30,14 +33,19 @@ export class HomeComponent {
     });
   }
 
+  /**
+  * Método para obtener el número de aerolineas
+  */
   getcountAirlines() {
     this.reportsService.getCountAirlines().subscribe((data: any) => {
       this.countAirlinea = data.countAirline
     });
   }
 
+  /**
+  * Método para obtener crear el grafico
+  */
   createChart() {
-
     this.chart = new Chart("MyChart", {
       type: 'bar', //this denotes tha type of chart
 

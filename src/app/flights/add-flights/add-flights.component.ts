@@ -41,6 +41,9 @@ export class AddFlightsComponent {
     });
   }
 
+  /**
+   * Método para obteren las aerolineas
+   */
   getAirlines() {
     this.commonService.getAirlines().subscribe(
       {
@@ -56,6 +59,9 @@ export class AddFlightsComponent {
     );
   }
 
+  /**
+   * Método para obteren los aeropuertos
+   */
   getAirports() {
     this.commonService.getAirports().subscribe(
       {
@@ -71,43 +77,58 @@ export class AddFlightsComponent {
     );
   }
 
-
+  /**
+    * Método para crear un vuelo
+    */
   save() {
-    if (this.flightForm.valid) {
-      let flight = {
-        numero_vuelo: this.flightForm.get('numero_vuelo').value,
-        idAirline: this.flightForm.get('idAirline').value,
-        origen: this.flightForm.get('origen').value,
-        destino: this.flightForm.get('destino').value,
-        fecha_salida: this.bindDateHour(new Date(this.flightForm.controls['fecha_salida'].value), this.flightForm.controls['hora_salida'].value), // Suponiendo que es un objeto Date
-        fecha_llegada:this.bindDateHour(new Date(this.flightForm.controls['fecha_llegada'].value), this.flightForm.controls['hora_llegada'].value), // Suponiendo que es un objeto Date
-        precio: this.flightForm.get('precio').value
-      };
-      this.flightsService.createflight(flight).subscribe(
-        {
-          next: (data: any) => {
-            Swal.fire({
-              icon: "success",
-              title: "Se ha creado el vuelo",
-              showConfirmButton: false,
-              timer: 1500
-            });
-            this.dialogRef.close(true);
-          }, error: (error) => {
-            Swal.fire({
-              icon: "error",
-              title: error.error.message,
-              showConfirmButton: false,
-              timer: 2000
-            });
-          }, complete: () => {
-  
-          }
+    this.flightsService.createflight(this.createflight()).subscribe(
+      {
+        next: (data: any) => {
+          Swal.fire({
+            icon: "success",
+            title: "Se ha creado el vuelo",
+            showConfirmButton: false,
+            timer: 1500
+          });
+          this.dialogRef.close(true);
+        }, error: (error) => {
+          Swal.fire({
+            icon: "error",
+            title: error.error.message,
+            showConfirmButton: false,
+            timer: 2000
+          });
+        }, complete: () => {
+
         }
-      );
-    }
+      }
+    );
+
   }
 
+  /**
+  * Método para crear el objeto con la estructura del vuelo
+  * @returns Un objeto del vuelo.
+  */
+  createflight() {
+    let flight = {
+      numero_vuelo: this.flightForm.get('numero_vuelo').value,
+      idAirline: this.flightForm.get('idAirline').value,
+      origen: this.flightForm.get('origen').value,
+      destino: this.flightForm.get('destino').value,
+      fecha_salida: this.bindDateHour(new Date(this.flightForm.controls['fecha_salida'].value), this.flightForm.controls['hora_salida'].value), // Suponiendo que es un objeto Date
+      fecha_llegada: this.bindDateHour(new Date(this.flightForm.controls['fecha_llegada'].value), this.flightForm.controls['hora_llegada'].value), // Suponiendo que es un objeto Date
+      precio: this.flightForm.get('precio').value
+    };
+    return flight;
+  }
+
+  /**
+  * Método para unificar la fecha y la hora
+  * @param date Fecha.
+  * @param hour hora.
+  * @returns Un string de la fecha completa.
+  */
   bindDateHour(date: Date, hour: string): string {
     const [horas, minutos] = hour.split(':').map(Number);
     const fechaConHora = new Date(date);
@@ -117,10 +138,17 @@ export class AddFlightsComponent {
     return fechaFormateada;
   }
 
+  /**
+  * Método para mormalizar la fecha
+  * @returns Un strin con un numero.
+  */
   padZero(num: number): string {
     return num < 10 ? '0' + num : '' + num;
   }
 
+  /**
+  * Método para validar el destino y el origen
+  */
   validateRout() {
     if (this.flightForm.get('destino').value === this.flightForm.get('origen').value) {
       Swal.fire({
@@ -133,6 +161,10 @@ export class AddFlightsComponent {
     }
   }
 
+  /**
+  * Método para dar formato a una fecha
+  * @returns Un Date con la fecha.
+  */
   getFromatDate(date?) {
     if (date) {
       const fechaLlegada = this.flightForm.get('fecha_llegada').value;

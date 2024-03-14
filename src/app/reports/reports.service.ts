@@ -16,11 +16,19 @@ export class ReportsService {
     this.httpWithoutIntercepptor = new HttpClient(httpBackend);
   }
 
-  getTopReservation(){
+  /**
+  * Método para obtener las aerolineas con mas reservas.
+  * @returns Un Observable que emite las aerolineas.
+  */
+  getTopReservation() {
     return this.httpWithoutIntercepptor.get(`${environment.api}reports/topReservation`);
   }
 
-  getCountAirlines(){
+  /**
+  * Método para obtener el número de aerolineas.
+  * @returns Un Observable que emite el número de aerolineas.
+  */
+  getCountAirlines() {
     return this.httpWithoutIntercepptor.get(`${environment.api}reports/countAirline`);
   }
 }

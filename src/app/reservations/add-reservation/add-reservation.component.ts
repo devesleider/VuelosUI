@@ -29,8 +29,10 @@ export class AddReservationComponent {
       documento: ['', Validators.required]
     });
   }
-
-  //Crea un codigo de reserva
+  
+  /**
+    * Método para crear un codigo de reserva
+    */
   getReservationCode(): string {
     const letras = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     let codigo = '';
@@ -44,6 +46,9 @@ export class AddReservationComponent {
     return codigo;
   }
 
+  /**
+  * Método para crear la reserva
+  */
   save() {
     this.reservationsService.createReservation(this.createReservation()).subscribe(
       {
@@ -69,6 +74,10 @@ export class AddReservationComponent {
     );
   }
 
+  /**
+  * Método para crear el objeto con la estructura la reserva
+  * @returns Un objeto de la reserva.
+  */
   createReservation() {
     let reservation = {
       numero_reserva: this.reservationCode,
@@ -81,12 +90,21 @@ export class AddReservationComponent {
     return reservation;
   }
 
+  /**
+ * Método para dar formato a una fecha
+ * @param date Fecha.
+ * @returns Un string de la fecha completa.
+ */
   formatDate(date: string): string {
     const fechaConHora = new Date(date);
     const fechaFormateada = `${fechaConHora.getFullYear()}-${this.padZero(fechaConHora.getMonth() + 1)}-${this.padZero(fechaConHora.getDate())}`;
     return fechaFormateada;
   }
 
+  /**
+    * Método para mormalizar la fecha
+    * @returns Un strin con un numero.
+    */
   padZero(num: number): string {
     return num < 10 ? '0' + num : '' + num;
   }

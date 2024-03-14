@@ -24,6 +24,9 @@ export class ListFlightsComponent {
     this.getAllFlights();
   }
 
+  /**
+  * Método para abrir el modal de registro
+  */
   addFlight() {
     const dialogRef = this.dialog.open(AddFlightsComponent,
       {
@@ -38,6 +41,9 @@ export class ListFlightsComponent {
 
   }
 
+  /**
+  * Método para listar todos los vuelos
+  */
   getAllFlights() {
     this.loanding = true;
     this.flightsService.getflights().subscribe(
@@ -53,8 +59,5 @@ export class ListFlightsComponent {
       }
     );
   }
-
-
-
 
 }

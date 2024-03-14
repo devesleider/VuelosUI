@@ -34,6 +34,9 @@ export class ListReservationComponent {
     });
   }
 
+  /**
+   * Método para obteren los aeropuertos
+   */
   getAirports() {
     this.commonService.getAirports().subscribe(
       {
@@ -49,6 +52,10 @@ export class ListReservationComponent {
     );
   }
 
+  /**
+  * Método para dar formato a una fecha y validar la congruensia
+  * @returns Un Date con la fecha.
+  */
   getFromatDate(date?) {
     if (date) {
       const fechaLlegada = this.flightForm.get('fecha_llegada').value;
@@ -56,10 +63,13 @@ export class ListReservationComponent {
       this.flightForm.get('fecha_llegada').setValue(fechaLlegada < nuevaFecha ? nuevaFecha : fechaLlegada);
       return nuevaFecha;
     }
-    
+
     return new Date();
   }
 
+  /**
+  * Método para listar todos los vuelos segun los filtros
+  */
   getFlightFilters() {
     this.flightsService.getflightsFilters(this.createFilters()).subscribe(
       {
@@ -75,6 +85,9 @@ export class ListReservationComponent {
     );
   }
 
+  /**
+  * Método para crear los filtros de la peticion
+  */
   createFilters(): string {
     let origin = this.flightForm.get('origen').value;
     let destination = this.flightForm.get('destino').value;
@@ -84,16 +97,27 @@ export class ListReservationComponent {
     return filters;
   }
 
+  /**
+  * Método para dar formato a una fecha
+  * @returns Un Date con la fecha.
+  */
   formatDate(date: string): string {
     const fechaConHora = new Date(date);
     const fechaFormateada = `${fechaConHora.getFullYear()}-${this.padZero(fechaConHora.getMonth() + 1)}-${this.padZero(fechaConHora.getDate())}`;
     return fechaFormateada;
   }
 
+  /**
+  * Método para mormalizar la fecha
+  * @returns Un strin con un numero.
+  */
   padZero(num: number): string {
     return num < 10 ? '0' + num : '' + num;
   }
 
+  /**
+  * Método validar la congruencia del destino y el origen
+  */
   validateRout() {
     if (this.flightForm.get('destino').value === this.flightForm.get('origen').value) {
       Swal.fire({
@@ -106,6 +130,9 @@ export class ListReservationComponent {
     }
   }
 
+  /**
+  * Método para abrir modal de registro de reserva
+  */
   addReservation(id) {
     const dialogRef = this.dialog.open(AddReservationComponent,
       {
